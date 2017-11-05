@@ -208,7 +208,7 @@ export default class Form extends Component {
 
     render() {
         return (
-            <div tabIndex={0} ref={wrapper => this._wrapper = wrapper}>
+            <div ref={wrapper => this._wrapper = wrapper}>
                 {this.renderWrappedChildren(this.props.children)}
             </div>
         );
