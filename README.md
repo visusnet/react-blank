@@ -79,7 +79,7 @@ You can find a <a href="https://github.com/visusnet/react-blank-example/blob/mas
 
 ## Installation
 
-This module has not been published yet. However, you can use it if you add it your package.json like this:
+This module has not been published yet. However, you can use it if you add it to your package.json like this:
 
 ```
   "dependencies": {
