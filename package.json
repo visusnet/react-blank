@@ -1,11 +1,14 @@
 {
   "name": "react-blank",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "author": "Alexander Müller",
-  "license": "MIT",
+  "license": "tbd",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "node_modules/.bin/babel src -d dist",
+    "watch": "npm run build -- --watch",
+    "lint": "node_modules/.bin/eslint src"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -13,7 +16,6 @@
     "babel-jest": "^21.2.0",
     "babel-plugin-array-includes": "^2.0.3",
     "babel-plugin-transform-require-ignore": "^0.1.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
@@ -37,7 +39,7 @@
     "react-dom": "^16.0.0"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "./src/setup.js",
+    "setupTestFrameworkScriptFile": "./__tests__/setup.js",
     "testEnvironment": "jsdom"
   }
 }

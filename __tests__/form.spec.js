@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
+import * as PropTypes from 'prop-types';
 import {mount} from 'enzyme';
-import Form, {DEFAULT_TYPES} from './form';
+import Form, {DEFAULT_TYPES} from '../src/form';
 import ReactTestUtils from 'react-dom/test-utils';
 
 describe('Form should', () => {
     let root;
+
     beforeEach(() => {
         root = document.createElement('div');
         document.body.appendChild(root);
@@ -15,25 +17,28 @@ describe('Form should', () => {
     });
 
     class CustomComponent extends Component {
+        static propTypes = {
+            customOnBlur: PropTypes.func.isRequired
+        };
+
+        static defaultProps = {
+            customOnBlur: () => {}
+        };
+
         state = {};
 
-        onChange = () => {
+        onBlur = () => {
             this.setState({
                 value: 'staticValue'
             }, () => {
-                this.props.customOnChange('randomArg', this.state.value, 'randomArg');
+                this.props.customOnBlur('randomArg', this.state.value, 'randomArg');
             });
         };
 
         render() {
             return (
                 <p contentEditable="true"
-                    onBlur={this.onChange}
-                    onKeyUp={this.onChange}
-                    onPaste={this.onChange}
-                    onCopy={this.onChange}
-                    onCut={this.onChange}
-                    onMouseUp={this.onChange}
+                    onBlur={this.onBlur}
                 ></p>
             );
         }
@@ -43,51 +48,51 @@ describe('Form should', () => {
         ...DEFAULT_TYPES,
         [CustomComponent]: {
             idProperty: 'customIdProp',
-            onChangeProperty: 'customOnChange',
+            onBlurProperty: 'customOnBlur',
             valueExtractor: (randomArg1, value) => value
         }
     };
 
-    it('call onValidate when an onChange event is triggered on a direct child', done => {
+    it('call onValidate when an onBlur event is triggered on a direct child', done => {
         mount(
             <Form onValidate={() => done()}>
-                <input id="text" type="text" onChange={() => {}}/>
+                <input id="text" type="text" onBlur={() => {}}/>
             </Form>,
             {attachTo: root});
 
         const input = document.getElementById('text');
-        ReactTestUtils.Simulate.change(input, {target: {value: ''}});
+        ReactTestUtils.Simulate.blur(input, {target: {value: ''}});
     });
 
-    it('call onValidate when an onChange event is triggered on an element somewhere in the element tree', done => {
+    it('call onValidate when an onBlur event is triggered on an element somewhere in the element tree', done => {
         mount(
             <Form onValidate={() => done()}>
                 <div>
                     <div>
-                        <input id="text" type="text" onChange={() => {}}/>
+                        <input id="text" type="text" onBlur={() => {}}/>
                     </div>
                 </div>
             </Form>,
             {attachTo: root});
 
         const input = document.getElementById('text');
-        ReactTestUtils.Simulate.change(input, {target: {value: ''}});
+        ReactTestUtils.Simulate.blur(input, {target: {value: ''}});
     });
 
-    it('call onValidate when an onChange event is triggered on one element of many', done => {
+    it('call onValidate when an onBlur event is triggered on one element of many', done => {
         mount(
             <Form onValidate={() => done()}>
-                <input id="text1" type="text" onChange={() => {}}/>
-                <input id="text2" type="text" onChange={() => {}}/>
-                <input id="text3" type="text" onChange={() => {}}/>
+                <input id="text1" type="text" onBlur={() => {}}/>
+                <input id="text2" type="text" onBlur={() => {}}/>
+                <input id="text3" type="text" onBlur={() => {}}/>
             </Form>,
             {attachTo: root});
 
         const input = document.getElementById('text2');
-        ReactTestUtils.Simulate.change(input, {target: {value: ''}});
+        ReactTestUtils.Simulate.blur(input, {target: {value: ''}});
     });
 
-    it('call onValidate with information about all elements on which onChange has been triggered', done => {
+    it('call onValidate with information about all elements on which onBlur has been triggered', done => {
         const onValidate = (fieldName, fieldValue, allFieldValues) => {
             const fieldNames = Object.keys(allFieldValues);
             if (fieldNames.length === 3) {
@@ -99,18 +104,18 @@ describe('Form should', () => {
         };
         mount(
             <Form onValidate={onValidate}>
-                <input id="text1" type="text" onChange={() => {}}/>
-                <input id="text2" type="text" onChange={() => {}}/>
-                <input id="text3" type="text" onChange={() => {}}/>
+                <input id="text1" type="text" onBlur={() => {}}/>
+                <input id="text2" type="text" onBlur={() => {}}/>
+                <input id="text3" type="text" onBlur={() => {}}/>
             </Form>,
             {attachTo: root});
 
         const input1 = document.getElementById('text1');
-        ReactTestUtils.Simulate.change(input1, {target: {value: 'value1'}});
+        ReactTestUtils.Simulate.blur(input1, {target: {value: 'value1'}});
         const input2 = document.getElementById('text2');
-        ReactTestUtils.Simulate.change(input2, {target: {value: 'value2'}});
+        ReactTestUtils.Simulate.blur(input2, {target: {value: 'value2'}});
         const input3 = document.getElementById('text3');
-        ReactTestUtils.Simulate.change(input3, {target: {value: 'value3'}});
+        ReactTestUtils.Simulate.blur(input3, {target: {value: 'value3'}});
     });
 
     it('call onValidate with value from custom component', done => {
@@ -121,7 +126,7 @@ describe('Form should', () => {
 
         mount(
             <Form types={customComponentTypes} onValidate={onValidate}>
-                <CustomComponent customIdProp="text" customOnChange={() => {}}/>
+                <CustomComponent customIdProp="text" customonBlur={() => {}}/>
             </Form>,
             {attachTo: root});
 
@@ -139,18 +144,18 @@ describe('Form should', () => {
 
         const wrapper = mount(
             <Form onValidate={onValidate}>
-                <input id="text1" type="text" onChange={() => {}}/>
-                <input id="text2" type="text" onChange={() => {}}/>
+                <input id="text1" type="text" onBlur={() => {}}/>
+                <input id="text2" type="text" onBlur={() => {}}/>
             </Form>,
             {attachTo: root});
 
         const input1 = document.getElementById('text1');
-        ReactTestUtils.Simulate.change(input1, {target: {value: 'value1'}});
+        ReactTestUtils.Simulate.blur(input1, {target: {value: 'value1'}});
 
         wrapper.unmount();
         wrapper.mount();
 
         const input2 = document.getElementById('text2');
-        ReactTestUtils.Simulate.change(input2, {target: {value: 'value2'}});
+        ReactTestUtils.Simulate.blur(input2, {target: {value: 'value2'}});
     });
 });
