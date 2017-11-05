@@ -1,5 +1,7 @@
 # React Blank
 
+[![Build Status](https://travis-ci.org/visusnet/react-blank.svg?branch=master)](https://travis-ci.org/visusnet/react-blank)
+
 This library is meant to help with form validation and focus management.
 
 ```javascript
