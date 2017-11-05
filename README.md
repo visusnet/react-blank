@@ -74,3 +74,18 @@ export default App;
 ```
 
 You can find a <a href="https://github.com/visusnet/react-blank-example/blob/master/src/App.js">full example here</a>.
+
+## Installation
+
+This module has not been published yet. However, you can use it if you add it your package.json like this:
+
+```
+  "dependencies": {
+    ...
+    "react-blank": "https://github.com/visusnet/react-blank"
+  },
+```
+
+## Contribute
+
+Pull requests are always welcome!
