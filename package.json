@@ -40,6 +40,7 @@
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./__tests__/setup.js",
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "testMatch": ["**/__tests__/**/*.spec.js?(x)"]
   }
 }
